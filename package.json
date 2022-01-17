@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "generate": "truffle compile && typechain --target truffle-v5 './build/**/*.json'",
+    "generate": "truffle compile && typechain --target=truffle-v5 './build/**/*.json'",
     "prepare": "npm run generate"
   },
   "devDependencies": {
@@ -8,6 +8,7 @@
     "@types/chai": "^4.3.0",
     "@types/mocha": "^9.0.0",
     "@types/node": "^17.0.8",
+    "chai": "^4.3.4",
     "truffle": "^5.4.29",
     "truffle-typings": "^1.0.8",
     "ts-node": "^10.4.0",
