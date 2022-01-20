@@ -10,13 +10,156 @@ export interface VotingMachineContract
   "new"(meta?: Truffle.TransactionDetails): Promise<VotingMachineInstance>;
 }
 
-type AllEvents = never;
+export interface CandidateCreated {
+  name: "CandidateCreated";
+  args: {
+    candidateId: string;
+    0: string;
+  };
+}
+
+export interface CandidateVoted {
+  name: "CandidateVoted";
+  args: {
+    candidateId: string;
+    voter: string;
+    0: string;
+    1: string;
+  };
+}
+
+type AllEvents = CandidateCreated | CandidateVoted;
 
 export interface VotingMachineInstance extends Truffle.ContractInstance {
+  candidates(
+    arg0: string,
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<string>;
+
   owner(txDetails?: Truffle.TransactionDetails): Promise<string>;
 
+  voters(
+    arg0: string,
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<boolean>;
+
+  votes(
+    arg0: string,
+    arg1: number | BN | string,
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<string>;
+
+  randomId(
+    _name: string,
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<string>;
+
+  createCandidate: {
+    (_name: string, txDetails?: Truffle.TransactionDetails): Promise<
+      Truffle.TransactionResponse<AllEvents>
+    >;
+    call(_name: string, txDetails?: Truffle.TransactionDetails): Promise<void>;
+    sendTransaction(
+      _name: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+    estimateGas(
+      _name: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<number>;
+  };
+
+  getCandidateName(
+    _id: string,
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<string>;
+
+  vote: {
+    (_id: string, txDetails?: Truffle.TransactionDetails): Promise<
+      Truffle.TransactionResponse<AllEvents>
+    >;
+    call(_id: string, txDetails?: Truffle.TransactionDetails): Promise<void>;
+    sendTransaction(
+      _id: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+    estimateGas(
+      _id: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<number>;
+  };
+
+  getVotes(
+    _id: string,
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<string[]>;
+
   methods: {
+    candidates(
+      arg0: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+
     owner(txDetails?: Truffle.TransactionDetails): Promise<string>;
+
+    voters(
+      arg0: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<boolean>;
+
+    votes(
+      arg0: string,
+      arg1: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+
+    randomId(
+      _name: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+
+    createCandidate: {
+      (_name: string, txDetails?: Truffle.TransactionDetails): Promise<
+        Truffle.TransactionResponse<AllEvents>
+      >;
+      call(
+        _name: string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<void>;
+      sendTransaction(
+        _name: string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<string>;
+      estimateGas(
+        _name: string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<number>;
+    };
+
+    getCandidateName(
+      _id: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+
+    vote: {
+      (_id: string, txDetails?: Truffle.TransactionDetails): Promise<
+        Truffle.TransactionResponse<AllEvents>
+      >;
+      call(_id: string, txDetails?: Truffle.TransactionDetails): Promise<void>;
+      sendTransaction(
+        _id: string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<string>;
+      estimateGas(
+        _id: string,
+        txDetails?: Truffle.TransactionDetails
+      ): Promise<number>;
+    };
+
+    getVotes(
+      _id: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string[]>;
   };
 
   getPastEvents(event: string): Promise<EventData[]>;
