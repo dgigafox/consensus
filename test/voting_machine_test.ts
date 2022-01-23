@@ -25,6 +25,11 @@ contract("VotingMachine", (accounts) => {
       const result = await votingMachine.getCandidateName(candidateId);
       assert.equal(result, expected, "resulting candidate not the same with expected");
     })
+
+    it("can only be done by the owner", async () => {
+      truffleAssert.passes(votingMachine.createCandidate(CANDIDATE_TEST_NAME, {from: accounts[0]}));
+      truffleAssert.reverts(votingMachine.createCandidate(CANDIDATE_TEST_NAME, {from: accounts[1]}));
+    })
   })
 
   describe("vote(id)", () => {

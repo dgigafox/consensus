@@ -13,11 +13,11 @@ contract VotingMachine is Ownable {
     mapping(bytes32 => address[]) public votes;
     mapping(address => bool) public voters;
 
-    function randomId(string memory _name) public pure returns (bytes32) {
+    function randomId(string memory _name) private pure returns (bytes32) {
         return keccak256(abi.encode(_name));
     }
 
-    function createCandidate(string memory _name) public {
+    function createCandidate(string memory _name) external onlyOwner {
         bytes32 id = randomId(_name);
         candidates[id] = Candidate(_name);
         emit CandidateCreated(id);
