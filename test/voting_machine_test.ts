@@ -1,4 +1,5 @@
-import { VotingMachineContract, VotingMachineInstance } from "../types/truffle-contracts";
+import { expect } from "chai";
+import { VotingMachineInstance } from "../types/truffle-contracts";
 
 const VotingMachine = artifacts.require("VotingMachine");
 const truffleAssert = require("truffle-assertions");
@@ -29,6 +30,29 @@ contract("VotingMachine", (accounts) => {
     it("can only be done by the owner", async () => {
       truffleAssert.passes(votingMachine.createCandidate(CANDIDATE_TEST_NAME, {from: accounts[0]}));
       truffleAssert.reverts(votingMachine.createCandidate(CANDIDATE_TEST_NAME, {from: accounts[1]}));
+    })
+  })
+
+  describe("listCandidateIds()", () => {
+    it("lists candidate ids", async() => {
+      const votingMachine: VotingMachineInstance = await VotingMachine.deployed();
+      let expected: string[] = [];
+      let candidate: any;
+
+      candidate = await votingMachine.createCandidate("Candidate1");
+      truffleAssert.eventEmitted(candidate, 'CandidateCreated', (ev: any) => {
+        expected.push(ev.candidateId);
+        return true;
+      });
+
+      candidate = await votingMachine.createCandidate("Candidate2");
+      truffleAssert.eventEmitted(candidate, 'CandidateCreated', (ev: any) => {
+        expected.push(ev.candidateId);
+        return true;
+      });
+
+      const result = await votingMachine.listCandidateIds();
+      assert.includeMembers(result, expected, "ids not contained in result");
     })
   })
 
@@ -65,3 +89,5 @@ contract("VotingMachine", (accounts) => {
     })
   })
 })
+
+

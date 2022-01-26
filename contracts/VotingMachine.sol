@@ -6,21 +6,24 @@ contract VotingMachine is Ownable {
     event CandidateCreated(bytes32 candidateId);
 
     struct Candidate {
+        bytes32 id;
         string name;
     }
 
     mapping(bytes32 => Candidate) public candidates;
     mapping(bytes32 => address[]) public votes;
     mapping(address => bool) public voters;
+    bytes32[] public candidateIds;
 
     function randomId(string memory _name) private pure returns (bytes32) {
         return keccak256(abi.encode(_name));
     }
 
     function createCandidate(string memory _name) external onlyOwner {
-        bytes32 id = randomId(_name);
-        candidates[id] = Candidate(_name);
-        emit CandidateCreated(id);
+        bytes32 _id = randomId(_name);
+        candidates[_id] = Candidate(_id, _name);
+        candidateIds.push(_id);
+        emit CandidateCreated(_id);
     }
 
     function getCandidateName(bytes32 _id) public view returns (string memory) {
@@ -36,5 +39,9 @@ contract VotingMachine is Ownable {
 
     function getVotes(bytes32 _id) public view returns (address[] memory) {
         return votes[_id];
+    }
+
+    function listCandidateIds() external view returns (bytes32[] memory) {
+        return candidateIds;
     }
 }

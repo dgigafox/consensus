@@ -41,10 +41,15 @@ export interface OwnershipTransferred {
 type AllEvents = CandidateCreated | CandidateVoted | OwnershipTransferred;
 
 export interface VotingMachineInstance extends Truffle.ContractInstance {
+  candidateIds(
+    arg0: number | BN | string,
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<string>;
+
   candidates(
     arg0: string,
     txDetails?: Truffle.TransactionDetails
-  ): Promise<string>;
+  ): Promise<{ 0: string; 1: string }>;
 
   /**
    * Returns the address of the current owner.
@@ -95,11 +100,6 @@ export interface VotingMachineInstance extends Truffle.ContractInstance {
     txDetails?: Truffle.TransactionDetails
   ): Promise<string>;
 
-  randomId(
-    _name: string,
-    txDetails?: Truffle.TransactionDetails
-  ): Promise<string>;
-
   createCandidate: {
     (_name: string, txDetails?: Truffle.TransactionDetails): Promise<
       Truffle.TransactionResponse<AllEvents>
@@ -140,11 +140,18 @@ export interface VotingMachineInstance extends Truffle.ContractInstance {
     txDetails?: Truffle.TransactionDetails
   ): Promise<string[]>;
 
+  listCandidateIds(txDetails?: Truffle.TransactionDetails): Promise<string[]>;
+
   methods: {
+    candidateIds(
+      arg0: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+
     candidates(
       arg0: string,
       txDetails?: Truffle.TransactionDetails
-    ): Promise<string>;
+    ): Promise<{ 0: string; 1: string }>;
 
     /**
      * Returns the address of the current owner.
@@ -195,11 +202,6 @@ export interface VotingMachineInstance extends Truffle.ContractInstance {
       txDetails?: Truffle.TransactionDetails
     ): Promise<string>;
 
-    randomId(
-      _name: string,
-      txDetails?: Truffle.TransactionDetails
-    ): Promise<string>;
-
     createCandidate: {
       (_name: string, txDetails?: Truffle.TransactionDetails): Promise<
         Truffle.TransactionResponse<AllEvents>
@@ -242,6 +244,8 @@ export interface VotingMachineInstance extends Truffle.ContractInstance {
       _id: string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<string[]>;
+
+    listCandidateIds(txDetails?: Truffle.TransactionDetails): Promise<string[]>;
   };
 
   getPastEvents(event: string): Promise<EventData[]>;

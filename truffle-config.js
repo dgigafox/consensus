@@ -17,8 +17,8 @@
  * phrase from a file you've .gitignored so it doesn't accidentally become public.
  *
  */
-
-// const HDWalletProvider = require('@truffle/hdwallet-provider');
+require('dotenv').config();
+const HDWalletProvider = require("truffle-hdwallet-provider");
 //
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
@@ -50,6 +50,17 @@ module.exports = {
       port: 8545,            // Standard Ethereum port (default: none)
       network_id: "*",       // Any network (default: none)
     },
+    rinkeby: {
+      provider: () => {
+        const mnemonic = process.env.MNEMONIC
+        const project_id = process.env.INFURA_PROJECT_ID
+        return new HDWalletProvider(
+          mnemonic,
+          `https://rinkeby.infura.io/v3/${project_id}`
+        );
+      },
+      network_id: "*"
+    }
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port

@@ -2,3 +2,4 @@
 /build
 /built
 /client/node_modules
+.env
