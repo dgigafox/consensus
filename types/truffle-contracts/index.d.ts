@@ -3,16 +3,19 @@
 /* eslint-disable */
 
 import { MigrationsContract } from "./Migrations";
+import { OwnableContract } from "./Ownable";
 import { VotingMachineContract } from "./VotingMachine";
 
 declare global {
   namespace Truffle {
     interface Artifacts {
       require(name: "Migrations"): MigrationsContract;
+      require(name: "Ownable"): OwnableContract;
       require(name: "VotingMachine"): VotingMachineContract;
     }
   }
 }
 
 export { MigrationsContract, MigrationsInstance } from "./Migrations";
+export { OwnableContract, OwnableInstance } from "./Ownable";
 export { VotingMachineContract, VotingMachineInstance } from "./VotingMachine";

@@ -8,6 +8,7 @@ contract VotingMachine is Ownable {
     struct Candidate {
         bytes32 id;
         string name;
+        bool exists;
     }
 
     mapping(bytes32 => Candidate) public candidates;
@@ -21,7 +22,8 @@ contract VotingMachine is Ownable {
 
     function createCandidate(string memory _name) external onlyOwner {
         bytes32 _id = randomId(_name);
-        candidates[_id] = Candidate(_id, _name);
+        require(!candidates[_id].exists);
+        candidates[_id] = Candidate(_id, _name, true);
         candidateIds.push(_id);
         emit CandidateCreated(_id);
     }

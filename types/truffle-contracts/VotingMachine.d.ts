@@ -49,7 +49,7 @@ export interface VotingMachineInstance extends Truffle.ContractInstance {
   candidates(
     arg0: string,
     txDetails?: Truffle.TransactionDetails
-  ): Promise<{ 0: string; 1: string }>;
+  ): Promise<{ 0: string; 1: string; 2: boolean }>;
 
   /**
    * Returns the address of the current owner.
@@ -97,6 +97,11 @@ export interface VotingMachineInstance extends Truffle.ContractInstance {
   votes(
     arg0: string,
     arg1: number | BN | string,
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<string>;
+
+  randomId(
+    _name: string,
     txDetails?: Truffle.TransactionDetails
   ): Promise<string>;
 
@@ -151,7 +156,7 @@ export interface VotingMachineInstance extends Truffle.ContractInstance {
     candidates(
       arg0: string,
       txDetails?: Truffle.TransactionDetails
-    ): Promise<{ 0: string; 1: string }>;
+    ): Promise<{ 0: string; 1: string; 2: boolean }>;
 
     /**
      * Returns the address of the current owner.
@@ -199,6 +204,11 @@ export interface VotingMachineInstance extends Truffle.ContractInstance {
     votes(
       arg0: string,
       arg1: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+
+    randomId(
+      _name: string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<string>;
 
