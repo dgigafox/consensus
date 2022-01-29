@@ -26,6 +26,8 @@ const HDWalletProvider = require("truffle-hdwallet-provider");
 require("ts-node/register");
 
 module.exports = {
+  // directory where contracts are saved when compiled
+  contracts_build_directory: "./client/src/contracts",
   // this is required by truffle to find any ts test files
   test_file_extension_regexp: /.*\.ts$/,
   /**

@@ -11,10 +11,17 @@ interface iProps {
 export default function CandidateList({ contract, accounts }: iProps) {
   const [candidateIds, setCandidateIds] = useState<string[]>([]);
 
-  useEffect(() => {
+  function loadCandidates() {
     contract && contract.methods.listCandidateIds().call({ from: accounts[0] })
       .then((result: string[]) => setCandidateIds(result))
-  }, [contract])
+  }
+
+  useEffect(() => { loadCandidates() }, [contract])
+  useEffect(() => {
+    contract && contract.once("CandidateCreated", (error: any) => {
+      if (!error) { loadCandidates() }
+    })
+  })
 
   return (
     <div className="flex flex-col space-y-4">

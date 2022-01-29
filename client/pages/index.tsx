@@ -1,11 +1,8 @@
-import type { NextPage } from 'next'
 import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
 import CandidateForm from '../components/candidate_form'
 import { useEffect, useState } from 'react'
 import getWeb3 from '../utils/getWeb3'
-import VotingMachineContract from "../../build/contracts/VotingMachine.json";
+import VotingMachineContract from "../src/contracts/VotingMachine.json";
 import CandidateList from '../components/candidate_list'
 
 export default function Home() {
