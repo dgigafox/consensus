@@ -33,7 +33,7 @@ contract VotingMachine is Ownable {
     }
 
     function vote(bytes32 _id) public {
-        require(!voters[msg.sender]);
+        require(!voters[msg.sender], "already voted");
         voters[msg.sender] = true;
         votes[_id].push(msg.sender);
         emit CandidateVoted(_id, msg.sender);

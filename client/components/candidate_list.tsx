@@ -9,6 +9,7 @@ interface iProps {
 }
 
 export default function CandidateList({ contract, accounts }: iProps) {
+  console.log({ accounts })
   const [candidateIds, setCandidateIds] = useState<string[]>([]);
 
   function loadCandidates() {
@@ -18,13 +19,16 @@ export default function CandidateList({ contract, accounts }: iProps) {
 
   useEffect(() => { loadCandidates() }, [contract])
   useEffect(() => {
-    contract && contract.once("CandidateCreated", (error: any) => {
-      if (!error) { loadCandidates() }
-    })
+    const subscription: any = contract && contract.events.CandidateCreated()
+      .on("data", function (event: any) {
+        setCandidateIds([...candidateIds, event.returnValues.candidateId])
+      })
+
+    return () => { subscription && subscription.unsubscribe() }
   })
 
   return (
-    <div className="flex flex-col space-y-4">
+    <div className="grid grid-cols-3 grid-rows-5 gap-6 p-6">
       {candidateIds.map((id: any) =>
         <CandidateItem key={id} candidateId={id} contract={contract} accounts={accounts} />
       )}
